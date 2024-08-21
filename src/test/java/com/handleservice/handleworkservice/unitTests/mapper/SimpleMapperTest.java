@@ -5,8 +5,6 @@ import com.handleservice.handleworkservice.mapper.SimpleEntityMapper;
 import com.handleservice.handleworkservice.utils.Pair;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 @Data
 @NoArgsConstructor
@@ -30,8 +28,9 @@ public class SimpleMapperTest extends BaseMapperTest<TestModelClass, TestModelCl
         super(new SimpleEntityMapper<>(TestModelClass.class, TestModelClass2.class));
     }
 
+    @SuppressWarnings("all")
     @Override
-    protected Pair<TestModelClass, TestModelClass2> generatePair() {
+    protected Pair<TestModelClass, TestModelClass2> getMatchingValues() {
         String name = "teste";
         double value = 1.0;
         TestModelClass testModelClass = new TestModelClass();
@@ -43,30 +42,5 @@ public class SimpleMapperTest extends BaseMapperTest<TestModelClass, TestModelCl
         testModelClass2.setValue(value);
 
         return new Pair<>(testModelClass, testModelClass2);
-    }
-
-    @Test
-    @Override
-    public void testToEntity() {
-        Pair<TestModelClass, TestModelClass2> pair = generatePair();
-        TestModelClass expectedTestModelClass = pair.first();
-        TestModelClass2 expectedTestRecord = pair.second();
-
-        TestModelClass result = mapper.toEntity(expectedTestRecord);
-
-        Assertions.assertEquals(expectedTestModelClass, result);
-    }
-
-    @Test
-    @Override
-    public void testToDto() {
-        Pair<TestModelClass, TestModelClass2> pair = generatePair();
-        TestModelClass expectedTestModelClass = pair.first();
-        TestModelClass2 expectedTestModelClass2 = pair.second();
-
-        TestModelClass2 result = mapper.toDTO(expectedTestModelClass);
-
-        Assertions.assertEquals(expectedTestModelClass2, result);
-
     }
 }
