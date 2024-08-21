@@ -1,7 +1,7 @@
 package com.handleservice.handleworkservice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.security.Timestamp;
@@ -28,13 +28,12 @@ public class Work {
     private String description;
 
     @Column(nullable = false)
-    private boolean enable;
+    private boolean enable = true;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at", insertable = false, updatable = false, nullable = false)
     private Timestamp createdAt;
 
     @Column(name = "updated_at", insertable = false, updatable = false)
     private Timestamp updatedAt;
+
 }
-
-
