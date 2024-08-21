@@ -1,7 +1,7 @@
 services:
   postgres-db:
     container_name: handle-work-db
-    image: postgres
+    image: postgres:16.4-alpine
     ports:
       - "5435:5432"
     environment:
