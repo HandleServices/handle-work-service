@@ -1,5 +1,6 @@
 package com.handleservice.handleworkservice.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +12,19 @@ import java.util.UUID;
 @Entity
 @Table(name = "works")
 public class Work {
+
+    public Work() {
+    }
+
+    public Work(long id, UUID workerId, BigDecimal value, String name, @Nullable String description, boolean enable) {
+        this.id = id;
+        this.workerId = workerId;
+        this.value = value;
+        this.name = name;
+        this.description = description;
+        this.enable = enable;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
