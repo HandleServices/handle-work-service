@@ -4,10 +4,11 @@ import jakarta.annotation.Nullable;
 
 import java.math.BigDecimal;
 
-public record ListWorkDTO(
+public record WorkDTO(
+        long id,
         String name,
         @Nullable String description,
         BigDecimal value,
-        Boolean enable
+        boolean enable
 ) {
 }

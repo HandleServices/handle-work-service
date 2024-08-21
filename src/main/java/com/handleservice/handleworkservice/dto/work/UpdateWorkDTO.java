@@ -8,6 +8,6 @@ public record UpdateWorkDTO(
         String name,
         @Nullable String description,
         BigDecimal value,
-        Boolean enable
+        boolean enable
 ) {
 }
