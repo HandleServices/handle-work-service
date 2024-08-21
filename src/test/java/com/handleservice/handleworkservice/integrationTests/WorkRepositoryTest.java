@@ -1,4 +1,4 @@
-package com.handleservice.handleworkservice.integrationtest;
+package com.handleservice.handleworkservice.integrationTests;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
