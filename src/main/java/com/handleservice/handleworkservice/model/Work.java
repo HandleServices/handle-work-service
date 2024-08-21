@@ -16,7 +16,7 @@ public class Work {
     public Work() {
     }
 
-    public Work(long id, UUID workerId, BigDecimal value, String name, @Nullable String description, boolean enable) {
+    public Work(Long id, UUID workerId, BigDecimal value, String name, @Nullable String description, boolean enable) {
         this.id = id;
         this.workerId = workerId;
         this.value = value;
