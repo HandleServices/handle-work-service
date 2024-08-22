@@ -9,10 +9,4 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface CreateWorkMapper extends EntityMapper<Work, CreateWorkDTO> {
     CreateWorkMapper INSTANCE = Mappers.getMapper(CreateWorkMapper.class);
-
-    @Override
-    Work toEntity(CreateWorkDTO dto);
-
-    @Override
-    CreateWorkDTO toDTO(Work entity);
 }
