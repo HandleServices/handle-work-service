@@ -60,13 +60,17 @@ public class WorkService implements IWorkService {
             throw new EntityNotFoundException("Work not found");
 
         Work workToUpdate = _updateWorkMapper.toEntity(updateWorkDTO);
-        return _workRepository.updateWorkByIdAndWorkerId(id, workerId, workToUpdate);
+        _workRepository.updateWorkByIdAndWorkerId(id, workerId, workToUpdate);
+        _workRepository.flush();
+
+        return workToUpdate;
+
     }
 
     @Transactional
     @Override
     public void delete(Long id, UUID workerId) {
-        if (!_workRepository.existsByIdAndWorkerId(id,workerId))
+        if (!_workRepository.existsByIdAndWorkerId(id, workerId))
             throw new EntityNotFoundException("Work not found");
         _workRepository.deleteById(id);
     }

@@ -17,7 +17,7 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     @Modifying
     @Query("UPDATE Work w SET w.name = :#{#newWork.name}, w.description = :#{#newWork.description}, w.enable = :#{#newWork.enable} WHERE w.id = :id AND w.workerId = :workerId ")
-    Work updateWorkByIdAndWorkerId(
+    void updateWorkByIdAndWorkerId(
             @Param("id") Long id,
             @Param("workerId") UUID workerId,
             @Param("newWork") Work newWork

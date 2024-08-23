@@ -3,9 +3,11 @@ package com.handleservice.handleworkservice.model;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -44,10 +46,12 @@ public class Work {
     @Column(nullable = false)
     private boolean enable = true;
 
+    @CreationTimestamp
     @Column(name = "created_at", insertable = false, updatable = false, nullable = false)
-    private Timestamp createdAt;
+    private Instant createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at", insertable = false, updatable = false)
-    private Timestamp updatedAt;
+    private Instant updatedAt = null;
 
 }
