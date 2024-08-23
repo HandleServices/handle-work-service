@@ -1,4 +1,4 @@
-package com.handleservice.handleworkservice.unitTests.mapper;
+package com.handleservice.handleworkservice.infra;
 
 import com.handleservice.handleworkservice.mapper.EntityMapper;
 import com.handleservice.handleworkservice.utils.Pair;

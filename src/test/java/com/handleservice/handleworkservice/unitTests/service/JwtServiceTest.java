@@ -1,4 +1,4 @@
-package com.handleservice.handleworkservice.unitTests.jwt;
+package com.handleservice.handleworkservice.unitTests.service;
 import com.handleservice.handleworkservice.service.jwt.IJwtService;
 import com.handleservice.handleworkservice.service.jwt.JwtService;
 import org.junit.jupiter.api.Test;

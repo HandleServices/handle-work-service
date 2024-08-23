@@ -1,8 +1,7 @@
-package com.handleservice.handleworkservice.integrationTests;
+package com.handleservice.handleworkservice.infra;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,9 +12,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class WorkRepositoryTest {
+public abstract class BaseDbTest {
 
-    public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16.4-alpine");
+    private final static String IMAGE_NAME = "postgres:16.4-alpine";
+
+    public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>(IMAGE_NAME);
 
     @BeforeAll
     static void setUp() {
@@ -31,8 +32,4 @@ public class WorkRepositoryTest {
         postgresContainer.stop();
     }
 
-    @Test
-    void createWork() {
-
-    }
 }

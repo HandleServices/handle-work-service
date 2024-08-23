@@ -1,6 +1,7 @@
 package com.handleservice.handleworkservice.unitTests.mapper;
 
 import com.handleservice.handleworkservice.dto.work.WorkDTO;
+import com.handleservice.handleworkservice.infra.BaseMapperTest;
 import com.handleservice.handleworkservice.mapper.work.WorkMapper;
 import com.handleservice.handleworkservice.model.Work;
 import com.handleservice.handleworkservice.utils.Pair;
