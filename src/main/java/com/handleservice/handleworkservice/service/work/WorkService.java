@@ -47,7 +47,7 @@ public class WorkService implements IWorkService {
 
     @Transactional
     @Override
-    public Work save(UUID workerId, CreateWorkDTO createWorkDTO) {
+    public Work insert(UUID workerId, CreateWorkDTO createWorkDTO) {
         Work work = _createWorkMapper.toEntity(createWorkDTO);
         work.setWorkerId(workerId);
         return _workRepository.save(work);

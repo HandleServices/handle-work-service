@@ -2,7 +2,6 @@ package com.handleservice.handleworkservice.service.work;
 
 import com.handleservice.handleworkservice.dto.work.CreateWorkDTO;
 import com.handleservice.handleworkservice.dto.work.UpdateWorkDTO;
-import com.handleservice.handleworkservice.dto.work.WorkDTO;
 import com.handleservice.handleworkservice.model.Work;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface IWorkService {
 
     Work findById(Long id, UUID workerId);
 
-    Work save(UUID workerId, CreateWorkDTO workDTO);
+    Work insert(UUID workerId, CreateWorkDTO workDTO);
 
     List<Work> findAll(UUID workerId);
 
