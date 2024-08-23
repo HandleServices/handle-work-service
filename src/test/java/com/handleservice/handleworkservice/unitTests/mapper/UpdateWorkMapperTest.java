@@ -1,7 +1,7 @@
 package com.handleservice.handleworkservice.unitTests.mapper;
 
 import com.handleservice.handleworkservice.dto.work.UpdateWorkDTO;
-import com.handleservice.handleworkservice.mapper.work.IUpdateWorkMapper;
+import com.handleservice.handleworkservice.mapper.work.UpdateWorkMapper;
 import com.handleservice.handleworkservice.model.Work;
 import com.handleservice.handleworkservice.utils.Pair;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class UpdateWorkMapperTest extends BaseMapperTest<Work, UpdateWorkDTO> {
 
     protected UpdateWorkMapperTest() {
-        super(IUpdateWorkMapper.INSTANCE);
+        super(UpdateWorkMapper.INSTANCE);
     }
 
     @Override

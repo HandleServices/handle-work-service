@@ -3,7 +3,7 @@ package com.handleservice.handleworkservice.mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.util.Assert;
 
-public class SimpleEntityMapper<T, U> implements IEntityMapper<T, U> {
+public class SimpleEntityMapper<T, U> implements EntityMapper<T, U> {
 
     protected final Class<U> dtoClass;
     protected final Class<T> entityClass;

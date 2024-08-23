@@ -1,6 +1,6 @@
 package com.handleservice.handleworkservice.mapper;
 
 @FunctionalInterface
-public interface IEntityToDtoConverter<T, U> {
+public interface EntityToDtoConverter<T, U> {
     U toDTO(T entity);
 }
