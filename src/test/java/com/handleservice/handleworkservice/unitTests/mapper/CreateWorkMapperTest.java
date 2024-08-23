@@ -1,7 +1,7 @@
 package com.handleservice.handleworkservice.unitTests.mapper;
 
 import com.handleservice.handleworkservice.dto.work.CreateWorkDTO;
-import com.handleservice.handleworkservice.mapper.work.CreateWorkMapper;
+import com.handleservice.handleworkservice.mapper.work.ICreateWorkMapper;
 import com.handleservice.handleworkservice.model.Work;
 import com.handleservice.handleworkservice.utils.Pair;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class CreateWorkMapperTest extends BaseMapperTest<Work, CreateWorkDTO> {
 
     protected CreateWorkMapperTest() {
-        super(CreateWorkMapper.INSTANCE);
+        super(ICreateWorkMapper.INSTANCE);
     }
 
     @Override

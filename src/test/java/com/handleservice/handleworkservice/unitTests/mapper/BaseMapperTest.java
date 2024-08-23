@@ -1,15 +1,15 @@
 package com.handleservice.handleworkservice.unitTests.mapper;
 
-import com.handleservice.handleworkservice.mapper.EntityMapper;
+import com.handleservice.handleworkservice.mapper.IEntityMapper;
 import com.handleservice.handleworkservice.utils.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public abstract class BaseMapperTest<T, U> {
 
-    protected final EntityMapper<T, U> mapper;
+    protected final IEntityMapper<T, U> mapper;
 
-    protected BaseMapperTest(EntityMapper<T, U> mapper) {
+    protected BaseMapperTest(IEntityMapper<T, U> mapper) {
         this.mapper = mapper;
     }
 
