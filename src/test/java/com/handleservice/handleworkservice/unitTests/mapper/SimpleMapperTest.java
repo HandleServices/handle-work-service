@@ -55,12 +55,18 @@ public class SimpleMapperTest extends BaseMapperTest<TestEntity, TestDTO> {
 
     @Test
     void shouldThrowExceptionForRecordClass() {
+        // Given: Two classes to instance a SimpleEntityMapper
+        // When: At least one of them are a record
+        // Then: The SimpleEntityMapper constructor should throw an IllegalArgumentException
         Assertions.assertThrows(IllegalArgumentException.class, () -> new SimpleEntityMapper<>(TestRecord.class, TestDTO.class));
 
     }
 
     @Test
     void shouldNotThrowExceptionForNonRecordClass() {
+        // Given: Two classes to instance a SimpleEntityMapper
+        // When: Both are not records
+        // Then: The SimpleEntityMapper constructor should not throw an IllegalArgumentException
         Assertions.assertDoesNotThrow(() -> {
             new SimpleEntityMapper<>(TestEntity.class, TestDTO.class);
         });
