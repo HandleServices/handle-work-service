@@ -56,14 +56,18 @@ public class WorkService implements IWorkService {
     @Transactional
     @Override
     public Work update(Long id, UUID workerId, UpdateWorkDTO updateWorkDTO) {
-        if (!_workRepository.existsByIdAndWorkerId(id, workerId))
-            throw new EntityNotFoundException("Work not found");
+        Work persistenceWork = _workRepository
+                .findByIdAndWorkerId(id, workerId)
+                .orElseThrow(() -> new EntityNotFoundException("Work not found"));
 
         Work workToUpdate = _updateWorkMapper.toEntity(updateWorkDTO);
-        _workRepository.updateWorkByIdAndWorkerId(id, workerId, workToUpdate);
-        _workRepository.flush();
 
-        return workToUpdate;
+        persistenceWork.setName(workToUpdate.getName());
+        persistenceWork.setDescription(workToUpdate.getDescription());
+        persistenceWork.setValue(workToUpdate.getValue());
+        persistenceWork.setEnable(workToUpdate.isEnable());
+
+        return _workRepository.save(persistenceWork);
 
     }
 
