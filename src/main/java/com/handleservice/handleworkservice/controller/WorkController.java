@@ -21,12 +21,13 @@ public class WorkController {
 
     private final IJwtService _jwtService;
     private final IWorkService _workService;
-    private final WorkMapper _workMapper = WorkMapper.INSTANCE;
+    private final WorkMapper _workMapper;
 
     @Autowired
-    public WorkController(IJwtService jwtService, IWorkService workService) {
+    public WorkController(IJwtService jwtService, IWorkService workService, WorkMapper workMapper) {
         this._jwtService = jwtService;
         this._workService = workService;
+        this._workMapper = workMapper;
     }
 
     @GetMapping
