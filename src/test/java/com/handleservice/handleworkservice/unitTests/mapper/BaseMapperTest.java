@@ -31,7 +31,7 @@ public abstract class BaseMapperTest<T, U> {
     }
 
     @Test
-    public void testShouldMappedEntityMatchDTOInCommonFields(){
+    public void testToEntity_shouldMappedDTOMatchConvertedEntityInCommonFields(){
         // Act
         T result = mapper.toEntity(expectedDTO);
 
@@ -41,7 +41,7 @@ public abstract class BaseMapperTest<T, U> {
     }
 
     @Test
-    public void testShouldMappedDTOMatchEntityInCommonFields(){
+    public void testToDTO_ShouldMappedEntityMatchConvertedDTOInCommonFields(){
         //Act
         U result = mapper.toDTO(expectedEntity);
 
