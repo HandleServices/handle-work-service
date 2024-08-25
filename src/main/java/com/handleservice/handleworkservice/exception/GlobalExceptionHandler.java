@@ -1,6 +1,5 @@
-package com.handleservice.handleworkservice.controller;
+package com.handleservice.handleworkservice.exception;
 
-import com.handleservice.handleworkservice.exception.UnauthorizedException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
