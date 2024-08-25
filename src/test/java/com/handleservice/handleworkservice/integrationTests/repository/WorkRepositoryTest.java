@@ -34,14 +34,12 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testInsert(){
-        //Given: A saved Work entity
+    public void  testInsert_givenWork_whenRetrievedById_thenWorkReturnedShouldMatchWorkSaved() {
+        // Act
         Work expectedWork = workRepository.save(work);
 
-        //When: We retrieve the Work entity
+        // Asset
         Work retreivedWork = workRepository.findById(expectedWork.getId()).orElse(null);
-
-        //Then: The retrieved work should Match the Work entity
         Assertions.assertNotNull(retreivedWork);
         Assertions.assertEquals(expectedWork.getId(), retreivedWork.getId());
         Assertions.assertEquals(expectedWork.getWorkerId(), retreivedWork.getWorkerId());
@@ -54,93 +52,116 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testUpdate() {
-        // Given: A saved Work entity
+    public void testUpdate_shouldChangeWorkAttributes() {
+        // Preparation
         Work expectedWork = workRepository.saveAndFlush(work);
-
-        // When: We update the Work entity
         String nameToUpdate = "updated name";
         String descriptionToUpdate = "updated description";
+        BigDecimal valueToUpdate = BigDecimal.ONE;
+        boolean enabledToUpdate = false;
+
+        // Act
         expectedWork.setName(nameToUpdate);
         expectedWork.setDescription(descriptionToUpdate);
+        expectedWork.setValue(valueToUpdate);
+        expectedWork.setEnable(enabledToUpdate);
         workRepository.saveAndFlush(expectedWork);
 
-        // Then: The updated Work should match the expected values
+        // Assert
         Work result = workRepository.findById(expectedWork.getId()).orElseThrow();
         Assertions.assertEquals(nameToUpdate, result.getName());
         Assertions.assertEquals(descriptionToUpdate, result.getDescription());
+        Assertions.assertEquals(valueToUpdate, result.getValue());
+        Assertions.assertEquals(enabledToUpdate, result.isEnable());
     }
 
     @Test
-    public void testDelete() {
-        // Given: A saved Work entity
+    public void testDelete_shouldRemoveWorkEntity() {
+        // Preparation
         Work savedWork = workRepository.saveAndFlush(work);
 
-        // When: We delete the Work entity
+        // Act
         workRepository.delete(savedWork);
-
-        // And: We try to retrieve the Work entity
         Work retreivedWork = workRepository.findById(savedWork.getId()).orElse(null);
 
-        // Then: The retrieved Work entity should not be found, therefore, should be null
+        // Assert
         Assertions.assertNull(retreivedWork);
     }
 
 
     @Test
-    public void testFindAllByWorkerId() {
-        // Given: A saved Work entity
+    public void testFindAllByWorkerId_shouldFindWork() {
+        // Preparation
         Work insertedWork = workRepository.saveAndFlush(work);
 
-        // When: We find Works by the inserted Work's worker ID
+        // Act
         List<Work> foundWorks = workRepository.findAllByWorkerId(insertedWork.getWorkerId());
 
-        // Then: The found Works should contain the inserted Work
+        // Assert
         Assertions.assertEquals(List.of(insertedWork), foundWorks);
+    }
 
-        // And When: we find Works by a different worker ID
+
+    @Test
+    public void testFindAllByWorkerId_shouldNotFindWork() {
+        // Preparation
+        workRepository.saveAndFlush(work);
         UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
-        List<Work> differentWorkerIdWorks = workRepository.findAllByWorkerId(differentWorkerId);
 
-        // Then: The found Works should be empty
-        Assertions.assertTrue(differentWorkerIdWorks.isEmpty());
+        // Act
+        List<Work> foundWorks = workRepository.findAllByWorkerId(differentWorkerId);
+
+        //Assert
+        Assertions.assertTrue(foundWorks.isEmpty());
     }
 
     @Test
-    public void testFindByIdAndWorkerId() {
-        // Given: A saved Work entity
+    public void testFindByIdAndWorkerId_givenIdAndWorkerId_shouldFindWork() {
+        // Preparation
         Work insertedWork = workRepository.saveAndFlush(work);
 
-        // When: We find the Work by ID and worker ID
+        // Act
         Work resultFound = workRepository.findByIdAndWorkerId(insertedWork.getId(), insertedWork.getWorkerId()).orElse(null);
 
-        // Then: The found Work should match the inserted Work
+        // Assert
         Assertions.assertEquals(insertedWork, resultFound);
-
-        // And When: We find the Work by ID and a different worker ID
-        UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
-        Work resultNotFound = workRepository.findByIdAndWorkerId(insertedWork.getId(), differentWorkerId).orElse(null);
-
-        // Then: The Work should not be found
-        Assertions.assertNull(resultNotFound);
     }
 
     @Test
-    public void testExistsByIdAndWorkerId() {
-        // Given: A saved Work entity
+    public void testFindByIdAndWorkerId_givenIdAndDifferentWorkerId_shouldNotFindWork() {
+        // Preparation
+        Work insertedWork =  workRepository.saveAndFlush(work);
+        UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
+
+        // Act
+        Work foundWork = workRepository.findByIdAndWorkerId(insertedWork.getId(), differentWorkerId).orElse(null);
+
+        // Assert
+        Assertions.assertNull(foundWork);
+    }
+
+    @Test
+    public void testExistsByIdAndWorkerId_givenIdAndWorkerId_shouldReturnTrue() {
+        // Preparation
         Work insertedWork = workRepository.saveAndFlush(work);
 
-        // When: We check if the Work exists by ID and worker ID
+        // Act
         boolean exists = workRepository.existsByIdAndWorkerId(insertedWork.getId(), insertedWork.getWorkerId());
 
-        // Then: The Work should exist
+        // Assert
         Assertions.assertTrue(exists);
+    }
 
-        // When: We check if the Work exists by ID and a different worker ID
+    @Test
+    public void testExistsByIdAndWorkerId_givenIdAndDifferentWorkerId_shouldReturnFalse() {
+        // Preparation
+        Work insertedWork = workRepository.saveAndFlush(work);
         UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
-        boolean notExists = workRepository.existsByIdAndWorkerId(insertedWork.getId(), UUID.randomUUID());
 
-        // Then: The Work should not exist
-        Assertions.assertFalse(notExists);
+        // Act
+        boolean exists = workRepository.existsByIdAndWorkerId(insertedWork.getId(), differentWorkerId);
+
+        // Assert
+        Assertions.assertFalse(exists);
     }
 }
