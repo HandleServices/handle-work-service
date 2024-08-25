@@ -1,7 +1,6 @@
 package com.handleservice.handleworkservice.unitTests.mapper;
 
 
-import com.handleservice.handleworkservice.infra.BaseMapperTest;
 import com.handleservice.handleworkservice.mapper.SimpleEntityMapper;
 import com.handleservice.handleworkservice.utils.Pair;
 import lombok.Data;
