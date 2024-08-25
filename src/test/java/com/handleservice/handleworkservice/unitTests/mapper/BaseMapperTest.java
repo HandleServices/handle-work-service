@@ -17,6 +17,10 @@ public abstract class BaseMapperTest<T, U> {
         this.mapper = mapper;
     }
 
+    /**
+     * Provides a pair of matching entity and DTO instances for testing.
+     * @return A pair of matching entity and DTO instances.
+     */
     protected abstract Pair<T, U> getMatchingValues();
 
     @BeforeEach
@@ -27,23 +31,21 @@ public abstract class BaseMapperTest<T, U> {
     }
 
     @Test
-    public void testToEntity(){
-        // Given: A DTO of type U
-        // When: We try to convert it to an entity of type T
+    public void testShouldMappedEntityMatchDTOInCommonFields(){
+        // Act
         T result = mapper.toEntity(expectedDTO);
 
-        // Then: the converted entity of type T should match the DTO on the common fields
+        // Assert
         Assertions.assertEquals(expectedEntity, result);
 
     }
 
     @Test
-    public void testToDto(){
-        // Given: An entity of type T
-        // When: We try to convert it to a DTO of type U
+    public void testShouldMappedDTOMatchEntityInCommonFields(){
+        //Act
         U result = mapper.toDTO(expectedEntity);
 
-        // Then: the converted DTO of type U should match the entity on the common fields
+        //Verify
         Assertions.assertEquals(expectedDTO, result);
     }
 }
