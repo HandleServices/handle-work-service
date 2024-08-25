@@ -21,20 +21,16 @@ import java.util.UUID;
 public class WorkService implements IWorkService {
 
     private final WorkRepository _workRepository;
-
-    private final EntityMapper<Work, WorkDTO> _workMapper;
     private final EntityMapper<Work, CreateWorkDTO> _createWorkMapper;
     private final EntityMapper<Work, UpdateWorkDTO> _updateWorkMapper;
 
     @Autowired
     WorkService(
             WorkRepository workRepository,
-            WorkMapper workMapper,
             CreateWorkMapper createWorkMapper,
             UpdateWorkMapper updateWorkMapper
     ) {
         this._workRepository = workRepository;
-        this._workMapper = workMapper;
         this._createWorkMapper = createWorkMapper;
         this._updateWorkMapper = updateWorkMapper;
     }
