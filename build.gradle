@@ -40,7 +40,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
 	runtimeOnly 'org.postgresql:postgresql'
-	runtimeOnly group: 'org.flywaydb', name: 'flyway-database-postgresql', version: '10.15.0'
+	runtimeOnly 'org.flywaydb:flyway-database-postgresql:10.15.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:junit-jupiter'
