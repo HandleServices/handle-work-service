@@ -2,14 +2,13 @@ package com.handleservice.handleworkservice.service.work;
 
 import com.handleservice.handleworkservice.dto.work.CreateWorkDTO;
 import com.handleservice.handleworkservice.dto.work.UpdateWorkDTO;
-import com.handleservice.handleworkservice.dto.work.WorkDTO;
+import com.handleservice.handleworkservice.exception.custom.EntityNotFoundException;
 import com.handleservice.handleworkservice.mapper.EntityMapper;
 import com.handleservice.handleworkservice.mapper.work.CreateWorkMapper;
 import com.handleservice.handleworkservice.mapper.work.UpdateWorkMapper;
-import com.handleservice.handleworkservice.mapper.work.WorkMapper;
 import com.handleservice.handleworkservice.model.Work;
 import com.handleservice.handleworkservice.repository.WorkRepository;
-import jakarta.persistence.EntityNotFoundException;
+
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
