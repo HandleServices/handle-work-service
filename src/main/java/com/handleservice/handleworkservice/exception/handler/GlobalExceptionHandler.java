@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    public record ErrorResponse(HttpStatus statusCode, String message) {
+    public record ErrorResponse(HttpStatus status, String message) {
     }
 
     @ExceptionHandler(DomainException.class)
