@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    public record ErrorResponse(HttpStatus status, String message) {
+    public record ErrorResponse(int status, String message) {
     }
 
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<ErrorResponse> handleBaseApiExceptions(DomainException ex) {
         HttpStatus status = HttpStatus.valueOf(ex.getHttpStatus());
-        ErrorResponse errorResponse = new ErrorResponse(status, ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(ex.getHttpStatus(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, status);
     }
 }
