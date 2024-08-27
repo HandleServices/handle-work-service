@@ -73,7 +73,8 @@ public class WorkController {
     @Operation(summary = "Delete work", description = "Delete a work by id for a specific worker")
     public void deleteWork(
             @Parameter(hidden = true) @WorkerId UUID workerId,
-            @PathVariable Long id) {
+            @PathVariable Long id
+    ) {
         _workService.delete(id, workerId);
     }
 }
