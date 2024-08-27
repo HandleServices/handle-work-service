@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,14 +28,15 @@ public class WorkRepositoryTest extends BaseDbTest {
         UUID workerId = UUID.fromString("3d92e6fa-964c-4fb7-b915-a5c897e02dcb");
         String name = "name";
         String description = "description";
+        LocalTime estimatedTime = LocalTime.of(11, 0);
         BigDecimal value = BigDecimal.ONE;
         boolean enabled = true;
 
-        work = new Work(id, workerId, value, name, description, enabled);
+        work = new Work(id, workerId, value, name, description, estimatedTime, enabled);
     }
 
     @Test
-    public void  testInsert_givenWork_whenRetrievedById_thenWorkReturnedShouldMatchWorkSaved() {
+    public void testInsert_givenWork_whenRetrievedById_thenWorkReturnedShouldMatchWorkSaved() {
         // Act
         Work expectedWork = workRepository.save(work);
 
@@ -47,6 +49,7 @@ public class WorkRepositoryTest extends BaseDbTest {
         Assertions.assertEquals(expectedWork.getDescription(), retreivedWork.getDescription());
         Assertions.assertEquals(expectedWork.isEnable(), retreivedWork.isEnable());
         Assertions.assertEquals(expectedWork.getValue(), retreivedWork.getValue());
+        Assertions.assertEquals(expectedWork.getEstimatedTime(), retreivedWork.getEstimatedTime());
         Assertions.assertNotNull(retreivedWork.getCreatedAt());
         Assertions.assertNotNull(retreivedWork.getUpdatedAt());
     }
@@ -57,6 +60,7 @@ public class WorkRepositoryTest extends BaseDbTest {
         Work expectedWork = workRepository.saveAndFlush(work);
         String nameToUpdate = "updated name";
         String descriptionToUpdate = "updated description";
+        LocalTime estimatedTimeToUpdate = LocalTime.of(12,1);
         BigDecimal valueToUpdate = BigDecimal.ONE;
         boolean enabledToUpdate = false;
 
@@ -65,6 +69,7 @@ public class WorkRepositoryTest extends BaseDbTest {
         expectedWork.setDescription(descriptionToUpdate);
         expectedWork.setValue(valueToUpdate);
         expectedWork.setEnable(enabledToUpdate);
+        expectedWork.setEstimatedTime(estimatedTimeToUpdate);
         workRepository.saveAndFlush(expectedWork);
 
         // Assert
@@ -73,6 +78,7 @@ public class WorkRepositoryTest extends BaseDbTest {
         Assertions.assertEquals(descriptionToUpdate, result.getDescription());
         Assertions.assertEquals(valueToUpdate, result.getValue());
         Assertions.assertEquals(enabledToUpdate, result.isEnable());
+        Assertions.assertEquals(estimatedTimeToUpdate, result.getEstimatedTime());
     }
 
     @Test
@@ -130,7 +136,7 @@ public class WorkRepositoryTest extends BaseDbTest {
     @Test
     public void testFindByIdAndWorkerId_givenIdAndDifferentWorkerId_shouldNotFindWork() {
         // Preparation
-        Work insertedWork =  workRepository.saveAndFlush(work);
+        Work insertedWork = workRepository.saveAndFlush(work);
         UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
 
         // Act

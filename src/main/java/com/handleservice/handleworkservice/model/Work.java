@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
@@ -18,12 +19,13 @@ public class Work {
     public Work() {
     }
 
-    public Work(Long id, UUID workerId, BigDecimal value, String name, @Nullable String description, boolean enable) {
+    public Work(Long id, UUID workerId, BigDecimal value, String name, @Nullable String description, LocalTime estimatedTime, boolean enable) {
         this.id = id;
         this.workerId = workerId;
         this.value = value;
         this.name = name;
         this.description = description;
+        this.estimatedTime = estimatedTime;
         this.enable = enable;
     }
 
@@ -42,6 +44,9 @@ public class Work {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "estimated_time", nullable = false)
+    private LocalTime estimatedTime;
 
     @Column(nullable = false)
     private boolean enable = true;

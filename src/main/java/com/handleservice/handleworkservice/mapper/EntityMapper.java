@@ -1,4 +1,9 @@
 package com.handleservice.handleworkservice.mapper;
 
-public interface EntityMapper<T, U> extends EntityToDtoConverter<T, U>, DtoToEntityConverter<T, U> {
+import org.mapstruct.Mapping;
+
+public interface EntityMapper<T, U> {
+    T toEntity(U dto);
+
+    U toDTO(T entity);
 }
