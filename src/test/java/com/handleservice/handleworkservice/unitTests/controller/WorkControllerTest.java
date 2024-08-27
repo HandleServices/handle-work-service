@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -31,18 +32,23 @@ public class WorkControllerTest {
     @Mock
     private WorkMapper workMapper;
 
+    private Work work;
+    private WorkDTO workDTO;
+    private UUID workerId;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        workerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
+        BigDecimal value = new BigDecimal("123.45");
+        LocalTime estimatedTime = LocalTime.of(12,0);
+        workDTO = new WorkDTO(1, "Work", "TestDescription", value, estimatedTime.toString(), true);
+        work = new Work();
+
     }
 
     @Test
     void testGetAllWorks_shouldReturnAllWorks() {
-        // Preparation
-        UUID workerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
-        BigDecimal value = new BigDecimal("123.45");
-        WorkDTO workDTO = new WorkDTO(1, "Work", "TestDescription", value, true);
-
         when(workService.findAll(workerId)).thenReturn(Collections.singletonList(new Work()));
         when(workMapper.toDTO(any(Work.class))).thenReturn(workDTO);
 
@@ -56,11 +62,6 @@ public class WorkControllerTest {
 
     @Test
     void testGetAllWorks_shouldCallWorkServiceAndMapperWithCorrectParams() {
-        // Preparation
-        UUID workerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
-        BigDecimal value = new BigDecimal("123.45");
-        Work work = new Work();
-        WorkDTO workDTO = new WorkDTO(1, "Work", "TestDescription", value, true);
 
         when(workService.findAll(workerId)).thenReturn(List.of(work));
         when(workMapper.toDTO(work)).thenReturn(workDTO);

@@ -1,13 +1,14 @@
 CREATE TABLE works
 (
-    id          bigserial PRIMARY KEY,
-    worker_id   uuid           NOT NULL,
-    value       numeric(10, 2) NOT NULL,
-    name        varchar(50)    NOT NULL,
-    description text,
-    enable      boolean        NOT NULL DEFAULT TRUE,
-    created_at  timestamp      NOT NULL DEFAULT NOW(),
-    updated_at  timestamp               DEFAULT NULL
+    id             bigserial PRIMARY KEY,
+    worker_id      uuid           NOT NULL,
+    value          numeric(10, 2) NOT NULL,
+    name           varchar(50)    NOT NULL,
+    description    text,
+    estimated_time time           NOT NULL,
+    enable         boolean        NOT NULL DEFAULT TRUE,
+    created_at     timestamp      NOT NULL DEFAULT NOW(),
+    updated_at     timestamp               DEFAULT NULL
 );
 
 CREATE FUNCTION update_timestamp_before_work_update() RETURNS trigger AS
@@ -35,18 +36,20 @@ CREATE FUNCTION update_timestamp_before_work_update() RETURNS trigger AS
  *   - A modified `NEW` record with the `updated_at` field updated.
  *
  */
-    $$
+$$
 BEGIN
-    IF tg_table_name = 'works' THEN
+    IF
+        tg_table_name = 'works' THEN
         -- Update the updated_at column with the current timestamp
         NEW.updated_at := NOW();
-END IF;
-RETURN NEW;
+    END IF;
+    RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$
+    LANGUAGE plpgsql;
 
 CREATE TRIGGER update_timestamp_before_work_update_trigger
     BEFORE UPDATE
     ON works
     FOR EACH ROW
-    EXECUTE FUNCTION update_timestamp_before_work_update();
+EXECUTE FUNCTION update_timestamp_before_work_update();

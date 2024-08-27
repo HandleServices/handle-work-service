@@ -9,6 +9,7 @@ public record WorkDTO(
         String name,
         @Nullable String description,
         BigDecimal value,
+        String estimatedTime,
         boolean enable
 ) {
 }
