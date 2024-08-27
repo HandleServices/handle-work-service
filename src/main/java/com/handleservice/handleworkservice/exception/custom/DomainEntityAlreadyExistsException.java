@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 /**
  * Thrown when an entity with same unique fields already exists in database
  */
-public class EntityAlreadyExistsException extends DomainException {
-    public EntityAlreadyExistsException(String message) {
+public class DomainEntityAlreadyExistsException extends DomainException {
+    public DomainEntityAlreadyExistsException(String message) {
         super(message);
     }
 

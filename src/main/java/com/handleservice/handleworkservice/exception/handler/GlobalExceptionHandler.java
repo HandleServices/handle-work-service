@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DomainException.class)
-    public ResponseEntity<ErrorResponse> handleBaseApiExceptions(DomainException ex) {
+    public ResponseEntity<ErrorResponse> handleDomainExceptions(DomainException ex) {
         HttpStatus status = HttpStatus.valueOf(ex.getHttpStatus());
         ErrorResponse errorResponse = new ErrorResponse(ex.getHttpStatus(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, status);
