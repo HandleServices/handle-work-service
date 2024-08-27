@@ -69,6 +69,7 @@ public class WorkService implements IWorkService {
         persistenceWork.setDescription(workToUpdate.getDescription());
         persistenceWork.setValue(workToUpdate.getValue());
         persistenceWork.setEnable(workToUpdate.isEnable());
+        persistenceWork.setEstimatedTime(workToUpdate.getEstimatedTime());
 
         return _workRepository.save(persistenceWork);
 
