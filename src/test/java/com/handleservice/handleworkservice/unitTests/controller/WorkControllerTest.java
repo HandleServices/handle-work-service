@@ -4,6 +4,7 @@ import com.handleservice.handleworkservice.controller.WorkController;
 import com.handleservice.handleworkservice.dto.work.CreateWorkDTO;
 import com.handleservice.handleworkservice.dto.work.UpdateWorkDTO;
 import com.handleservice.handleworkservice.dto.work.WorkDTO;
+import com.handleservice.handleworkservice.exception.custom.DomainEntityNotFoundException;
 import com.handleservice.handleworkservice.mapper.work.WorkMapper;
 import com.handleservice.handleworkservice.model.Work;
 import com.handleservice.handleworkservice.service.work.IWorkService;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
@@ -187,5 +189,15 @@ public class WorkControllerTest {
     }
 
 
-}
 
+    @Test
+    void testGetWorkById_givenNonExistentId_shouldThrowDomainEntityNotFoundException() {
+        // Preparation
+        long nonExistentId = -1L;
+        when(workService.findById(nonExistentId,workerId)).thenThrow(DomainEntityNotFoundException.class);
+
+        // Assert
+        assertThrows(DomainEntityNotFoundException.class, () -> workController.getWorkById(workerId, nonExistentId));
+    }
+
+}

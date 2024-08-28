@@ -10,6 +10,7 @@ import com.handleservice.handleworkservice.service.work.IWorkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,7 @@ public class WorkController {
     @Operation(summary = "Insert a new work", description = "Insert a new work entity for a specific worker")
     public WorkDTO insert(
             @Parameter(hidden = true) @WorkerId UUID workerId,
-            @RequestBody CreateWorkDTO createWorkDTO
+            @Valid @RequestBody CreateWorkDTO createWorkDTO
     ) {
         Work w = _workService.insert(workerId, createWorkDTO);
         return _workMapper.toDTO(w);
@@ -63,7 +64,7 @@ public class WorkController {
     public WorkDTO updateWork(
             @Parameter(hidden = true) @WorkerId UUID workerId,
             @PathVariable Long id,
-            @RequestBody UpdateWorkDTO updateWorkDTO
+            @Valid @RequestBody UpdateWorkDTO updateWorkDTO
     ) {
         Work updatedWork = _workService.update(id, workerId, updateWorkDTO);
         return _workMapper.toDTO(updatedWork);

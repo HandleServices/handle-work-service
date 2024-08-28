@@ -2,7 +2,7 @@ package com.handleservice.handleworkservice.service.work;
 
 import com.handleservice.handleworkservice.dto.work.CreateWorkDTO;
 import com.handleservice.handleworkservice.dto.work.UpdateWorkDTO;
-import com.handleservice.handleworkservice.exception.custom.EntityNotFoundException;
+import com.handleservice.handleworkservice.exception.custom.DomainEntityNotFoundException;
 import com.handleservice.handleworkservice.mapper.EntityMapper;
 import com.handleservice.handleworkservice.mapper.work.CreateWorkMapper;
 import com.handleservice.handleworkservice.mapper.work.UpdateWorkMapper;
@@ -39,7 +39,7 @@ public class WorkService implements IWorkService {
     public Work findById(Long id, UUID workerId) {
         return _workRepository
                 .findByIdAndWorkerId(id, workerId)
-                .orElseThrow(() -> new EntityNotFoundException("Work not found"));
+                .orElseThrow(() -> new DomainEntityNotFoundException("Work not found"));
     }
 
     @Transactional
@@ -61,7 +61,7 @@ public class WorkService implements IWorkService {
     public Work update(Long id, UUID workerId, UpdateWorkDTO updateWorkDTO) {
         Work persistenceWork = _workRepository
                 .findByIdAndWorkerId(id, workerId)
-                .orElseThrow(() -> new EntityNotFoundException("Work not found"));
+                .orElseThrow(() -> new DomainEntityNotFoundException("Work not found"));
 
         Work workToUpdate = _updateWorkMapper.toEntity(updateWorkDTO);
 
@@ -69,6 +69,7 @@ public class WorkService implements IWorkService {
         persistenceWork.setDescription(workToUpdate.getDescription());
         persistenceWork.setValue(workToUpdate.getValue());
         persistenceWork.setEnable(workToUpdate.isEnable());
+        persistenceWork.setEstimatedTime(workToUpdate.getEstimatedTime());
 
         return _workRepository.save(persistenceWork);
 
@@ -78,7 +79,7 @@ public class WorkService implements IWorkService {
     @Override
     public void delete(Long id, UUID workerId) {
         if (!_workRepository.existsByIdAndWorkerId(id, workerId))
-            throw new EntityNotFoundException("Work not found");
+            throw new DomainEntityNotFoundException("Work not found");
         _workRepository.deleteById(id);
     }
 
