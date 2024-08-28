@@ -196,7 +196,7 @@ public class WorkControllerTest {
         long nonExistentId = -1L;
         when(workService.findById(nonExistentId,workerId)).thenThrow(DomainEntityNotFoundException.class);
 
-        // Assert
+        // Act and Assert
         assertThrows(DomainEntityNotFoundException.class, () -> workController.getWorkById(workerId, nonExistentId));
     }
 
