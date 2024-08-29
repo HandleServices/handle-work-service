@@ -90,9 +90,11 @@ public class WorkControllerTest {
     @Test
     void testInsertWork_shouldReturnTheInsertedWorkEntity() {
         // Preparation
-        when(workService.insert
-                (argThat(uuid -> uuid.equals(workerId)), argThat(workDto -> workDto.equals(createWorkDTO))))
-                .thenReturn(work);
+        when(workService.insert(
+                argThat(uuid -> uuid.equals(workerId)),
+                argThat(workDto -> workDto.equals(createWorkDTO))
+            )
+        ).thenReturn(work);
         when(workMapper.toDTO(argThat(workReceive -> workReceive.equals(work)))).thenReturn(workDTO);
 
         // Act
@@ -105,9 +107,11 @@ public class WorkControllerTest {
     @Test
     void testInsertWork_shouldCallWorkServiceAndMapperWithCorrectParams() {
         // Preparation
-        when(workService.insert
-                (argThat(uuid -> uuid.equals(workerId)), argThat(workDto -> workDto.equals(createWorkDTO))))
-                .thenReturn(work);
+        when(workService.insert(
+                argThat(uuid -> uuid.equals(workerId)),
+                argThat(workDto -> workDto.equals(createWorkDTO))
+            )
+        ).thenReturn(work);
         when(workMapper.toDTO(argThat(workReceive -> workReceive.equals(work)))).thenReturn(workDTO);
 
         // Act
@@ -121,10 +125,15 @@ public class WorkControllerTest {
     @Test
     void testGetWorkById_shouldReturnAWorkWithTheRightId() {
         // Preparation
-        when(workService.findById
-                (argThat(id -> id == 1L), argThat(uuid -> uuid.equals(workerId)))
-            ).thenReturn(work);
-        when(workMapper.toDTO(argThat(workReceive -> workReceive.equals(work)))).thenReturn(workDTO);
+        when(workService.findById(
+                argThat(id -> id == 1L),
+                argThat(uuid -> uuid.equals(workerId))
+            )
+        ).thenReturn(work);
+
+        when(workMapper.toDTO(
+                argThat(workReceive -> workReceive.equals(work)))
+        ).thenReturn(workDTO);
 
         // Act
         WorkDTO result = workController.getWorkById(workerId, 1L);
@@ -137,9 +146,14 @@ public class WorkControllerTest {
     void testGetWorkById_shouldCallWorkServiceAndMapperWithCorrectParams() {
         // Preparation
         when(workService.findById(
-                argThat(id -> id == 1L), argThat(uuid -> uuid.equals(workerId)))
+                argThat(id -> id == 1L),
+                argThat(uuid -> uuid.equals(workerId))
+            )
         ).thenReturn(work);
-        when(workMapper.toDTO(argThat(workReceive -> workReceive.equals(work)))).thenReturn(workDTO);
+
+        when(workMapper.toDTO(
+                argThat(workReceive -> workReceive.equals(work)))
+        ).thenReturn(workDTO);
 
         // Act
         workController.getWorkById(workerId, 1L);
