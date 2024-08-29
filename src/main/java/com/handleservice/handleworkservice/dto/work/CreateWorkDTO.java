@@ -6,11 +6,9 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
 public record CreateWorkDTO(
-        @NotBlank
         @Size(min = 2, max = 100, message = "The name is too short or too big")
         String name,
 
-        @NotBlank
         @Nullable
         String description,
 
