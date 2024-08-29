@@ -4,6 +4,8 @@ import com.handleservice.handleworkservice.dto.work.CreateWorkDTO;
 import com.handleservice.handleworkservice.dto.work.UpdateWorkDTO;
 import com.handleservice.handleworkservice.exception.custom.DomainEntityNotFoundException;
 import com.handleservice.handleworkservice.mapper.EntityMapper;
+import com.handleservice.handleworkservice.mapper.work.CreateWorkMapper;
+import com.handleservice.handleworkservice.mapper.work.UpdateWorkMapper;
 import com.handleservice.handleworkservice.mapper.work.WorkMapper;
 import com.handleservice.handleworkservice.model.Work;
 import com.handleservice.handleworkservice.repository.WorkRepository;
@@ -37,10 +39,10 @@ public class WorkServiceTest {
     private WorkRepository workRepository;
 
     @Mock
-    private EntityMapper<Work, CreateWorkDTO> createWorkMapper;
+    private CreateWorkMapper createWorkMapper;
 
     @Mock
-    private EntityMapper<Work, UpdateWorkDTO> updateWorkMapper;
+    private UpdateWorkMapper updateWorkMapper;
 
     private UUID workerId;
     private Work work;
@@ -102,7 +104,7 @@ public class WorkServiceTest {
     }
 
     @Test
-    void testFindById_shouldThrowExceptionWhenNotFound() {
+    void testFindById_givenNonExistentIdOrWorkerId_shouldThrowException() {
         // Arrange
         when(workRepository.findByIdAndWorkerId(work.getId(), workerId)).thenReturn(Optional.empty());
 
@@ -110,18 +112,18 @@ public class WorkServiceTest {
         assertThrows(DomainEntityNotFoundException.class, () -> workService.findById(work.getId(), workerId));
     }
 
-//    @Test
-//    void testInsert_shouldSaveAndReturnWork() {
-//        // Arrange
-//        when(createWorkMapper.toEntity(createWorkDTO)).thenReturn(work);
-//        when(workRepository.save(work)).thenReturn(work);
-//
-//        // Act
-//        Work result = workService.insert(workerId, createWorkDTO);
-//
-//        // Assert
-//        assertEquals(work, result);
-//    }
+    @Test
+    void testInsert_shouldSaveAndReturnWork() {
+        // Arrange
+        when(createWorkMapper.toEntity(createWorkDTO)).thenReturn(work);
+        when(workRepository.save(work)).thenReturn(work);
+
+        // Act
+        Work result = workService.insert(workerId, createWorkDTO);
+
+        // Assert
+        assertEquals(work, result);
+    }
 
 
 }
