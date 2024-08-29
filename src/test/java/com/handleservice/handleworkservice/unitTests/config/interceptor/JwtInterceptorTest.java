@@ -21,11 +21,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class JwtInterceptorTest {
 
-    @Mock
-    private JwtService jwtService;
-
     @InjectMocks
     private JwtInterceptor jwtInterceptor;
+
+    @Mock
+    private JwtService jwtService;
 
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
