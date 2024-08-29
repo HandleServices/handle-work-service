@@ -1,6 +1,6 @@
 package com.handleservice.handleworkservice.config.interceptor;
 
-import com.handleservice.handleworkservice.exception.custom.UnauthorizedException;
+import com.handleservice.handleworkservice.exception.custom.DomainUnauthorizedException;
 import com.handleservice.handleworkservice.service.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws DomainUnauthorizedException {
 
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -28,7 +28,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                 !authorizationHeader.startsWith("Bearer ") ||
                 authorizationHeader.replace("Bearer ", "").trim().isEmpty()
         ) {
-            throw new UnauthorizedException("Authorization header is missing or incorrect");
+            throw new DomainUnauthorizedException("Authorization header is missing or incorrect");
         }
 
         String jwtToken = authorizationHeader.replace("Bearer", "").trim();

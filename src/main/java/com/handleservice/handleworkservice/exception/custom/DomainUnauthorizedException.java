@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 /**
  * Thrown when a request is unauthorized
  */
-public class UnauthorizedException extends DomainException {
-    public UnauthorizedException(String message) {
+public class DomainUnauthorizedException extends DomainException {
+    public DomainUnauthorizedException(String message) {
         super(message);
     }
 
