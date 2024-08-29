@@ -1,4 +1,4 @@
-package com.handleservice.handleworkservice.unitTests.validator;
+package com.handleservice.handleworkservice.unitTests.validation;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

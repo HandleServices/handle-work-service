@@ -1,4 +1,4 @@
-package com.handleservice.handleworkservice.unitTests.validator;
+package com.handleservice.handleworkservice.unitTests.validation;
 
 import com.handleservice.handleworkservice.dto.work.WorkDTO;
 
