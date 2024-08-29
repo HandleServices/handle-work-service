@@ -24,15 +24,16 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader == null ||
+                !authorizationHeader.startsWith("Bearer ") ||
+                authorizationHeader.replace("Bearer ", "").trim().isEmpty()
+        ) {
             throw new UnauthorizedException("Authorization header is missing or incorrect");
         }
-
 
         String jwtToken = authorizationHeader.replace("Bearer", "").trim();
         UUID workerId = UUID.fromString(jwtService.extractAuthId(jwtToken));
         request.setAttribute("workerId", workerId);
-
 
         return true;
     }
