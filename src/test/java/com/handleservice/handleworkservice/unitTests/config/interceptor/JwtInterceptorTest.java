@@ -39,8 +39,8 @@ public class JwtInterceptorTest {
     }
 
     @Test
-    public void testPreHandle_givenValidAuthorizationHeader_shouldSetWorkerIdAttributeAndReturnTrue() throws DomainUnauthorizedException {
-        // Preparation
+    public void testPreHandle_shouldSetWorkerIdAttributeAndReturnTrueWhenValidAuthorizationHeader() throws DomainUnauthorizedException {
+        // Arrange
         String token = "valid.jwt.token";
         String authorizationHeader = "Bearer " + token;
         UUID workerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
@@ -59,18 +59,17 @@ public class JwtInterceptorTest {
     }
 
     @Test
-    public void testPreHandle_givenValidAuthorizationHeader_shouldCallJwtServiceWithCorrectParams() throws DomainUnauthorizedException {
-        // Preparation
+    public void testPreHandle_shouldCallJwtServiceWithCorrectParamsWhenValidAuthorizationHeader() throws DomainUnauthorizedException {
+        // Arrange
         String token = "valid.jwt.token";
         String authorizationHeader = "Bearer " + token;
         UUID workerId = UUID.randomUUID();
-
-        request.addHeader("Authorization", authorizationHeader);
 
         when(jwtService.extractAuthId(argThat(tokenArgument -> tokenArgument.equals(token))))
                 .thenReturn(workerId.toString());
 
         // Act
+        request.addHeader("Authorization", authorizationHeader);
         jwtInterceptor.preHandle(request, response, handler);
 
         // Assert
@@ -78,28 +77,36 @@ public class JwtInterceptorTest {
     }
 
     @Test
-    public void testPreHandle_givenMissingAuthorizationHeader_shouldThrowDomainUnauthorizedException() {
+    public void testPreHandle_shouldThrowDomainUnauthorizedExceptionWhenMissingAuthorizationHeader() {
         // Act and Assert
-        assertThrows(DomainUnauthorizedException.class, () -> jwtInterceptor.preHandle(request, response, handler));
+        DomainUnauthorizedException exception = assertThrows(DomainUnauthorizedException.class, () -> jwtInterceptor.preHandle(request, response, handler));
+        assertEquals("Authorization header is missing or incorrect", exception.getMessage());
     }
 
     @Test
-    public void testPreHandle_givenInvalidAuthorizationHeader_shouldThrowDomainUnauthorizedException() {
-        // Preparation
-        String authorizationHeader = "InvalidToken";
+    public void testPreHandle_shouldThrowDomainUnauthorizedExceptionWhenInvalidAuthorizationHeader() {
+        // Arrange
+        String authorizationHeader = "NoBearer";
+
+        // Act
         request.addHeader("Authorization", authorizationHeader);
 
-        // Act and Assert
-        assertThrows(DomainUnauthorizedException.class, () -> jwtInterceptor.preHandle(request, response, handler));
+        // Assert
+        DomainUnauthorizedException exception = assertThrows(DomainUnauthorizedException.class, () -> jwtInterceptor.preHandle(request, response, handler));
+        assertEquals("Authorization header is missing or incorrect", exception.getMessage());
     }
 
     @Test
-    public void testPreHandle_givenEmptyAuthorizationHeader_shouldThrowDomainUnauthorizedException() {
-        // Preparation
+    public void testPreHandle_shouldThrowDomainUnauthorizedExceptionWhenGivenEmptyAuthorizationHeader() {
+        // Arrange
         String authorizationHeader = "Bearer ";
+
+        // Act
         request.addHeader("Authorization", authorizationHeader);
 
         // Act and Assert
-        assertThrows(DomainUnauthorizedException.class, () -> jwtInterceptor.preHandle(request, response, handler));
+        DomainUnauthorizedException exception = assertThrows(DomainUnauthorizedException.class, () -> jwtInterceptor.preHandle(request, response, handler));
+        assertEquals("Authorization header is missing or incorrect", exception.getMessage());
     }
+
 }

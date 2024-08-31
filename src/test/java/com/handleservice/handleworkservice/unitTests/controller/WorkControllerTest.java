@@ -25,9 +25,8 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class WorkControllerTest {
@@ -61,7 +60,7 @@ public class WorkControllerTest {
 
     @Test
     void testGetAllWorks_shouldReturnAllWorks() {
-        // Preparation
+        // Arrange
         when(workService.findAll(workerId)).thenReturn(List.of(work));
         when(workMapper.toDTO(any(Work.class))).thenReturn(workDTO);
 
@@ -75,7 +74,7 @@ public class WorkControllerTest {
 
     @Test
     void testGetAllWorks_shouldCallWorkServiceAndMapperWithCorrectParams() {
-        // Preparation
+        // Arrange
         when(workService.findAll(workerId)).thenReturn(List.of(work));
         when(workMapper.toDTO(work)).thenReturn(workDTO);
 
@@ -89,7 +88,7 @@ public class WorkControllerTest {
 
     @Test
     void testInsertWork_shouldReturnTheInsertedWorkEntity() {
-        // Preparation
+        // Arrange
         when(workService.insert(
                 argThat(uuid -> uuid.equals(workerId)),
                 argThat(workDto -> workDto.equals(createWorkDTO))
@@ -106,7 +105,7 @@ public class WorkControllerTest {
 
     @Test
     void testInsertWork_shouldCallWorkServiceAndMapperWithCorrectParams() {
-        // Preparation
+        // Arrange
         when(workService.insert(
                 argThat(uuid -> uuid.equals(workerId)),
                 argThat(workDto -> workDto.equals(createWorkDTO))
@@ -124,7 +123,7 @@ public class WorkControllerTest {
 
     @Test
     void testGetWorkById_shouldReturnAWorkWithTheRightId() {
-        // Preparation
+        // Arrange
         when(workService.findById(
                 argThat(id -> id == 1L),
                 argThat(uuid -> uuid.equals(workerId))
@@ -144,7 +143,7 @@ public class WorkControllerTest {
 
     @Test
     void testGetWorkById_shouldCallWorkServiceAndMapperWithCorrectParams() {
-        // Preparation
+        // Arrange
         when(workService.findById(
                 argThat(id -> id == 1L),
                 argThat(uuid -> uuid.equals(workerId))
@@ -165,7 +164,7 @@ public class WorkControllerTest {
 
     @Test
     void testUpdate_shouldReturnTheEntityUpdated() {
-        // Preparation
+        // Arrange
         when(workService.update(
                 argThat(id -> id == 1L),
                 argThat(uuid -> uuid.equals(workerId)),
@@ -184,7 +183,7 @@ public class WorkControllerTest {
 
     @Test
     void testUpdate_shouldCallWorkServiceAndMapperWithCorrectParams() {
-        // Preparation
+        // Arrange
         when(workService.update(
                     argThat(id -> id == 1L),
                     argThat(uuid -> uuid.equals(workerId)),
@@ -203,15 +202,27 @@ public class WorkControllerTest {
     }
 
 
-
     @Test
-    void testGetWorkById_givenNonExistentId_shouldThrowDomainEntityNotFoundException() {
-        // Preparation
+    void testGetWorkById_shouldThrowDomainEntityNotFoundExceptionWhenNonExistentId() {
+        // Arrange
         long nonExistentId = -1L;
         when(workService.findById(nonExistentId,workerId)).thenThrow(DomainEntityNotFoundException.class);
 
         // Act and Assert
         assertThrows(DomainEntityNotFoundException.class, () -> workController.getWorkById(workerId, nonExistentId));
     }
+
+    @Test
+    void testDeleteWork_shouldCallWorkServiceWithCorrectParams() {
+        // Arrange
+        doNothing().when(workService).delete(1L, workerId);
+
+        // Act
+        workController.deleteWork(workerId, 1L);
+
+        // Assert
+        verify(workService).delete(1L, workerId);
+    }
+
 
 }

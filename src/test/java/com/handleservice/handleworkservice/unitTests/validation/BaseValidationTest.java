@@ -35,7 +35,7 @@ public abstract class BaseValidationTest<T> {
 
     @BeforeEach
     public void setUp() {
-        // Preparation
+        // Arrange
         validObject = getValidObject();
         invalidObject = getInvalidObject();
         errorsCount = getErrorsCount();

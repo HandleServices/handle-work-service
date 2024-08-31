@@ -32,8 +32,8 @@ public class WorkerIdArgumentResolverTest {
 
 
     @Test
-    public void testSupportsParameter_givenAnnotatedParameterUUID_shouldReturnTrue() {
-        // Preparation
+    public void testSupportsParameter_shouldReturnTrueWhenAnnotatedParameterIsUUID() {
+        // Arrange
         when(methodParameter.hasParameterAnnotation(WorkerId.class)).thenReturn(true);
         //noinspection ALL
         when((Class<UUID>) methodParameter.getParameterType()).thenReturn(UUID.class);
@@ -46,8 +46,8 @@ public class WorkerIdArgumentResolverTest {
     }
 
     @Test
-    public void testSupportsParameter_givenAnnotatedParameterString_shouldReturnFalse() {
-        // Preparation
+    public void testSupportsParameter_shouldReturnFalseWhenAnnotatedParameterIsString() {
+        // Arrange
         when(methodParameter.hasParameterAnnotation(WorkerId.class)).thenReturn(true);
         //noinspection ALL
         when((Class<String>) methodParameter.getParameterType()).thenReturn(String.class);
@@ -60,8 +60,8 @@ public class WorkerIdArgumentResolverTest {
     }
 
     @Test
-    public void testSupportsParameter_givenNotAnnotatedParameterUUID_shouldReturnFalse() {
-        // Preparation
+    public void testSupportsParameter_shouldReturnFalseWhenParameterIsNotAnnotated() {
+        // Arrange
         when(methodParameter.hasParameterAnnotation(WorkerId.class)).thenReturn(false);
 
         // Act
@@ -72,8 +72,8 @@ public class WorkerIdArgumentResolverTest {
     }
 
     @Test
-    public void testResolveArgument_givenRequestWithWorkerId_shouldReturnWorkerId() {
-        // Preparation
+    public void testResolveArgument_shouldReturnRightWorkerIdWhenRequestContainsWorkerId() {
+        // Arrange
         UUID expectedWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setAttribute("workerId", expectedWorkerId);
@@ -88,8 +88,8 @@ public class WorkerIdArgumentResolverTest {
     }
 
     @Test
-    public void testResolveArgument_givenRequestWithoutWorkerId_ShouldReturnNull() {
-        // Preparation
+    public void testResolveArgument_shouldReturnNullWhenRequestDoesNotContainWorkerId() {
+        // Arrange
         MockHttpServletRequest request = new MockHttpServletRequest();
         NativeWebRequest webRequest = new ServletWebRequest(request);
 

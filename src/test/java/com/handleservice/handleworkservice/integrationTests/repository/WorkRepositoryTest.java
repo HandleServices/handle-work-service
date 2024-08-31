@@ -36,7 +36,7 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testInsert_givenWork_whenRetrievedById_thenWorkReturnedShouldMatchWorkSaved() {
+    public void testInsert_shouldWorkReturnedMatchWorkSaved() {
         // Act
         Work expectedWork = workRepository.save(work);
 
@@ -55,8 +55,8 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testUpdate_shouldChangeWorkAttributes() {
-        // Preparation
+    public void testUpdate_shouldChangeCurrentWorkAttributes() {
+        // Arrange
         Work expectedWork = workRepository.saveAndFlush(work);
         String nameToUpdate = "updated name";
         String descriptionToUpdate = "updated description";
@@ -82,8 +82,8 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testDelete_shouldRemoveWorkEntity() {
-        // Preparation
+    public void testDelete_shouldRemoveWorkEntityWhenPassFullEntity() {
+        // Arrange
         Work savedWork = workRepository.saveAndFlush(work);
 
         // Act
@@ -96,8 +96,8 @@ public class WorkRepositoryTest extends BaseDbTest {
 
 
     @Test
-    public void testFindAllByWorkerId_shouldFindWork() {
-        // Preparation
+    public void testFindAllByWorkerId_shouldFindAllWorkOfAWorkerIdWhenPassId() {
+        // Arrange
         Work insertedWork = workRepository.saveAndFlush(work);
 
         // Act
@@ -109,8 +109,8 @@ public class WorkRepositoryTest extends BaseDbTest {
 
 
     @Test
-    public void testFindAllByWorkerId_shouldNotFindWork() {
-        // Preparation
+    public void testFindAllByWorkerId_shouldNotFindAnyWorksOfAWorkerWithoutWorks() {
+        // Arrange
         workRepository.saveAndFlush(work);
         UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
 
@@ -123,7 +123,7 @@ public class WorkRepositoryTest extends BaseDbTest {
 
     @Test
     public void testFindByIdAndWorkerId_givenIdAndWorkerId_shouldFindWork() {
-        // Preparation
+        // Arrange
         Work insertedWork = workRepository.saveAndFlush(work);
 
         // Act
@@ -135,7 +135,7 @@ public class WorkRepositoryTest extends BaseDbTest {
 
     @Test
     public void testFindByIdAndWorkerId_givenIdAndDifferentWorkerId_shouldNotFindWork() {
-        // Preparation
+        // Arrange
         Work insertedWork = workRepository.saveAndFlush(work);
         UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
 
@@ -147,8 +147,8 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testExistsByIdAndWorkerId_givenIdAndWorkerId_shouldReturnTrue() {
-        // Preparation
+    public void testExistsByIdAndWorkerId_shouldReturnTrueForAWorkThatExistsForAWorker() {
+        // Arrange
         Work insertedWork = workRepository.saveAndFlush(work);
 
         // Act
@@ -159,8 +159,8 @@ public class WorkRepositoryTest extends BaseDbTest {
     }
 
     @Test
-    public void testExistsByIdAndWorkerId_givenIdAndDifferentWorkerId_shouldReturnFalse() {
-        // Preparation
+    public void testExistsByIdAndWorkerId_shouldReturnFalseForAWorkThatDoesNotExistForAWorker() {
+        // Arrange
         Work insertedWork = workRepository.saveAndFlush(work);
         UUID differentWorkerId = UUID.fromString("a3a389d9-909e-43dc-9df1-152ee945312c");
 
