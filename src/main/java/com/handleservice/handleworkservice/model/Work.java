@@ -1,16 +1,34 @@
 package com.handleservice.handleworkservice.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "works")
 public class Work {
+
+    public Work() {
+    }
+
+    public Work(Long id, UUID workerId, BigDecimal value, String name, @Nullable String description, LocalTime estimatedTime, boolean enable) {
+        this.id = id;
+        this.workerId = workerId;
+        this.value = value;
+        this.name = name;
+        this.description = description;
+        this.estimatedTime = estimatedTime;
+        this.enable = enable;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,14 +45,18 @@ public class Work {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "estimated_time", nullable = false)
+    private LocalTime estimatedTime;
+
     @Column(nullable = false)
-    private boolean enable;
+    private boolean enable = true;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
-    private Timestamp createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at", insertable = false, updatable = false, nullable = false)
+    private Instant createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at", insertable = false, updatable = false)
-    private Timestamp updatedAt;
+    private Instant updatedAt = null;
+
 }
-
-

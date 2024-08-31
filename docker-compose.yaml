@@ -1,0 +1,43 @@
+services:
+  postgres-db:
+    container_name: handle-work-db
+    image: postgres:16.4-alpine
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: handle
+    #      PGDATA: /data/postgres
+    #    volumes:
+    #      - ./data/pg:/data/postgres
+    healthcheck:
+      test:  ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+#  work-service:
+#    container_name: handle-work-service
+#    image: handle-work-service
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - 7070:7070
+#    environment:
+#      - DATABASE_URL=jdbc:postgresql://localhost:5435/handle
+#      - DATABASE_NAME=handle
+#      - DATABASE_USERNAME=postgres
+#      - DATABASE_PASSWORD=postgres
+#      - DATABASE_HOST=postgres-db
+#      - DATABASE_PORT=5432
+#      - DATABASE_DRIVER=postgresql+asyncpg
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#        delay: 3s
+#        max_attempts: 3
+#    depends_on:
+#      postgres-db:
+#        condition: service_healthy
