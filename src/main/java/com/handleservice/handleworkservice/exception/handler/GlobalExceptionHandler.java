@@ -3,17 +3,29 @@ package com.handleservice.handleworkservice.exception.handler;
 import com.handleservice.handleworkservice.exception.custom.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     public record ErrorResponse(int status, String message) {
+    }
+
+    public record DetailedErrorResponse(int status, String message, Map<String, String> details) {
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleDefaultException() {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), "Internal Server Error");
+        return new ResponseEntity<>(errorResponse, status);
     }
 
     @ExceptionHandler(DomainException.class)
@@ -23,21 +35,28 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, status);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+    public ResponseEntity<DetailedErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            if (error instanceof FieldError) {
-                String fieldErrorName = ((FieldError) error).getField();
-                String errorMessage = error.getDefaultMessage();
-                errors.put(fieldErrorName, errorMessage);
-            }
-        });
+        Map<String, String> errors = ex.getBindingResult().getAllErrors().stream()
+                .filter(error -> error instanceof FieldError)
+                .map(error -> (FieldError) error)
+                .collect(Collectors.toMap(
+                        FieldError::getField,
+                        error -> Optional.ofNullable(error.getDefaultMessage()).orElse("")
+                ));
 
-        return errors;
+        DetailedErrorResponse errorResponse = new DetailedErrorResponse(status.value(), "Unprocessable entity", errors);
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(Exception ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), "Unprocessable Entity: " + ex.getMessage());
+        return new ResponseEntity<>(errorResponse, status);
     }
 
 }
