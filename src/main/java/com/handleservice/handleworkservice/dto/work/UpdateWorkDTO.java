@@ -16,7 +16,7 @@ public record UpdateWorkDTO(
         @Min(value = 0, message = "The value must not be negative")
         BigDecimal value,
 
-        @Pattern(regexp = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", message = "The estimatedTime must match hh:mm")
+        @Pattern(regexp = "^([01][0-9]|2[0-3]):[0-5][0-9]$", message = "The estimatedTime must match hh:mm")
         String estimatedTime,
 
         boolean enable
