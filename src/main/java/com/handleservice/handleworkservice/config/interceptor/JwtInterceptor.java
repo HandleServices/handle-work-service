@@ -31,9 +31,14 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new DomainUnauthorizedException("Authorization header is missing or incorrect");
         }
 
-        String jwtToken = authorizationHeader.replace("Bearer", "").trim();
-        UUID workerId = UUID.fromString(jwtService.extractAuthId(jwtToken));
-        request.setAttribute("workerId", workerId);
+
+        try{
+            String jwtToken = authorizationHeader.replace("Bearer", "").trim();
+            UUID workerId = UUID.fromString(jwtService.extractAuthId(jwtToken));
+            request.setAttribute("workerId", workerId);
+        } catch (IllegalArgumentException e){
+            throw new DomainUnauthorizedException("Authorization header is incorrect");
+        }
 
         return true;
     }
