@@ -35,10 +35,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, status);
     }
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<DetailedErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 
         Map<String, String> errors = ex.getBindingResult().getAllErrors().stream()
                 .filter(error -> error instanceof FieldError)

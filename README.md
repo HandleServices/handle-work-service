@@ -159,7 +159,7 @@ Para executar os testes, execute o comando abaixo na raiz do projeto:
 [![postgresql](https://img.shields.io/badge/-PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)](https://postgresql.org)
 [![flyway](https://img.shields.io/badge/-Flyway-0072C6?style=flat-square&logo=flyway&logoColor=white)](https://flywaydb.org)
 
-## ✒️  Autores
+## ✒️ Autores
 
 - Elpidio Cabral - [@ElpidioCabral](https://github.com/elpidiocabral)
 - Gabriel Al-Samir - [@GuimaraesSl](https://github.com/GuimaraesSl)
