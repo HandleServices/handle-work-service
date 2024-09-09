@@ -3,6 +3,7 @@ package com.handleservice.handleworkservice.model;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,12 +13,10 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "works")
 public class Work {
-
-    public Work() {
-    }
 
     public Work(Long id, UUID workerId, BigDecimal value, String name, @Nullable String description, LocalTime estimatedTime, boolean enable) {
         this.id = id;
