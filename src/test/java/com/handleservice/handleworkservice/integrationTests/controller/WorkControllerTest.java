@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -70,7 +69,9 @@ public class WorkControllerTest {
     private final Work work = new Work();
 
     @BeforeAll
-    public static void startContainer() { postgresContainer.start(); }
+    public static void startContainer() {
+        postgresContainer.start();
+    }
 
     @AfterAll
     static void stopContainers() {
@@ -107,7 +108,7 @@ public class WorkControllerTest {
 
         // Act
         mockMvc.perform(post("/work")
-                        .header("Authorization", "Bearer "+jwtToken)
+                        .header("Authorization", "Bearer " + jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createWorkDTO)))
                 .andExpect(status().isOk());
@@ -204,7 +205,4 @@ public class WorkControllerTest {
         Work deletedWork = workRepository.findById(work.getId()).orElse(null);
         assertThat(deletedWork).isNull();
     }
-
-
-
 }
